@@ -9,9 +9,34 @@ import 'dart:async';
 import 'package:dong_song/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+
+  await initHiveForFlutter();
+
+  final HttpLink httpLink = HttpLink(
+    'https://graphqlzero.almansi.me/api',
+  );
+
+  final AuthLink authLink = AuthLink(
+    getToken: () async => 'Bearer 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',
+    // OR
+    // getToken: () => 'Bearer <YOUR_PERSONAL_ACCESS_TOKEN>',
+  );
+
+  final Link link = authLink.concat(httpLink);
+
+  ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      link: link,
+      // The default store is the InMemoryStore, which does NOT persist to disk
+      cache: GraphQLCache(store: HiveStore()),
+    ),
+  );
+
   runApp(const MyApp());
 }
 

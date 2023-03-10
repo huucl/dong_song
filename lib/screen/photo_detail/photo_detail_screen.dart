@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'photo_detail_controller.dart';
 
-class PhotoDetailScreen extends StatelessWidget {
+class PhotoDetailScreen extends GetWidget<PhotoDetailController> {
   PhotoDetailScreen({super.key, required this.product});
 
   final Product product;
